@@ -144,8 +144,8 @@ exports.singleSubCat = async function(req , res,next){
 //search subcategory controller
 exports.searchSubCategory = async function(req, res, next){
     try{
-        const query = req.params.name;
-    const findData = {subCatName:{$regex:`^${query}`,$options:"i"}};
+        const query = {name:req.params};
+    const findData = {subCatTitle:{$regex:`^${query.name}`,$options:"i"}};
     const resData = await SubCatModel.find(findData)
     if(resData){
         res.json({

@@ -241,7 +241,7 @@ exports.productImageAggregate = async function (req, res, next) {
 exports.searchProduct = async function (req, res, next){
    try{
     const searchData = {name:req.query.name};
-    console.log(searchData)
+    // console.log(searchData)
     const findData = {productName:{$regex:`^${searchData.name}`,$options:"i"}}
     // console.log(findData)
     let resData = await ProductModel.find(findData);

@@ -9,6 +9,6 @@ CategoryRouter.get('/getAllCategory',getAllCategory);
 CategoryRouter.delete('/deleteCategory/:id',deleteCategory);
 CategoryRouter.put('/updateCategory',updateCategory);
 CategoryRouter.post('/categoryAggregate/:id',categoryAggregate);
-CategoryRouter.post("/search/:name",searchCategory)
+CategoryRouter.get("/search",searchCategory)
 CategoryRouter.get("/singlecategory/:id",signleCategory)
 module.exports = CategoryRouter

@@ -17,11 +17,10 @@ exports.addProduct = async function (req, res, next) {
             productSubCatId: req.body.productSubCatId,
             productDescription: req.body.productDescription,
             productTitle: req.body.productTitle,
-            // productImg1:req.arr[1],
-            // productImg2:req.arr[1],
-            // productImg3:req.arr[1],
-            // productImg4:req.arr[1],
-            // productImg5:req.arr[1],
+            productImg:req.imagePath,
+            // productImg:req.imagePath,
+            // productImg:req.imagePath,
+            // productImg:req.imagePath
         }
         const productData = await ProductModel.create(product)
         if (productData) {

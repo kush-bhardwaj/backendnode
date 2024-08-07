@@ -18,7 +18,8 @@ exports.AuthMiddleWare = async(req, res, next)=>{
     }catch(err){
         res.json({
             status:"failed",
-            message:"Unauthorized user detect"
+            message:"Unauthorized user detect",
+            error:err
         })
     }
 }

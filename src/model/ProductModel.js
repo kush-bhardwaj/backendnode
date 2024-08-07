@@ -18,10 +18,6 @@ const ProductSchema = mongoose.Schema(
     productDescription:{type:String},
     productTitle:{type:String},
     productImg:{type:String,default:".png"},
-//     productImg2:{type:String,default:".png"},
-//     productImg3:{type:String,default:".png"},
-//     productImg4:{type:String,default:".png"},
-//     productImg5:{type:String,default:".png"}
 })
 const ProductModel = new mongoose.model(COLLECTION.Product,ProductSchema)
 module.exports = ProductModel

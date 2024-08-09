@@ -17,7 +17,7 @@ exports.addProduct = async function (req, res, next) {
             productSubCatId: req.body.productSubCatId,
             productDescription: req.body.productDescription,
             productTitle: req.body.productTitle,
-            productImg:req.imagePath,
+            productImg: req.imagePath,
             // productImg:req.imagePath,
             // productImg:req.imagePath,
             // productImg:req.imagePath
@@ -26,7 +26,7 @@ exports.addProduct = async function (req, res, next) {
         if (productData) {
             res.json({
                 status: "success",
-                message: "your product has been added"
+                message: "your added"
             })
         } else {
             res.json({
@@ -46,23 +46,32 @@ exports.addProduct = async function (req, res, next) {
 //getAllProduct completed 👍
 exports.getAllProducts = async function (req, res, next) {
     try {
-        const getProduct = await ProductModel.find({})
-        if (getProduct) {
-            res.json({
-                status: "success",
-                message: "products find successfull",
-                data: getProduct
-            })
-        } else {
-            res.json({
-                status: "faild",
-                message: "faild to fetch products"
-            })
+        const pageNo = req.query.pageno
+        const limit = 5;
+        var totalCount = await ProductModel.find().count();
+        const totalPage = Math.ceil(totalCount / limit)
+        if (pageNo <= totalPage) {
+            var offset = (pageNo - 1) * limit
+            const getProduct = await ProductModel.find({}).skip(offset).limit(limit)
+            if (getProduct) {
+                res.json({
+                    status: "success",
+                    message: "products find successfull",
+                    data: getProduct
+                })
+            } else {
+                res.json({
+                    status: "faild",
+                    message: "faild to fetch products"
+                })
+            }
         }
+
     } catch (err) {
         res.json({
             status: "fail",
-            message: "unable to find Products"
+            message: "unable to find Products",
+            error: err
         })
     }
 }
@@ -111,11 +120,11 @@ exports.updateProduct = async function (req, res, next) {
             productSubCatId: req.body.productSubCatId,
             productDescription: req.body.productDescription,
             productTitle: req.body.productTitle,
-            productImg:req.imagePath
+            productImg: req.imagePath
         }
         // console.log(updateData)
         const updateRes = await ProductModel.updateOne(query, updateData)
-        console.log("updateres",updateRes)
+        console.log("updateres", updateRes)
         if (updateRes) {
             res.json({
                 status: "success",
@@ -124,7 +133,7 @@ exports.updateProduct = async function (req, res, next) {
         } else {
             res.json({
                 status: "failed",
-                
+
                 message: "unable to update product please update carefully"
             })
         }
@@ -143,7 +152,8 @@ exports.updateProduct = async function (req, res, next) {
 exports.singleProduct = async function (req, res, next) {
     try {
         const query = { _id: req.params.id };
-        const singleRes = await ProductModel.findOne(query._id)
+        console.log("single product id", query)
+        const singleRes = await ProductModel.findOne(query)
         if (singleRes) {
             res.json({
                 status: "success",
@@ -173,7 +183,7 @@ exports.uploadImage = async function (request, response, next) {
             productId: request.body.productId,
             image: request.imagePath,
         }
-        console.log("image data",Imageupload)
+        console.log("image data", Imageupload)
         const resData = await ImageModel.create(Imageupload)
         // console.log(resData)
         if (resData) {
@@ -206,10 +216,10 @@ exports.productImageAggregate = async function (req, res, next) {
             //stage2 lookup
             {
                 $lookup: {
-                    from:"uploads",
-                    localField:"_id ",
-                    foreignField:"productId",
-                    as:"productImages"
+                    from: "uploads",
+                    localField: "_id ",
+                    foreignField: "productId",
+                    as: "productImages"
                 }
             }
         ])
@@ -237,38 +247,38 @@ exports.productImageAggregate = async function (req, res, next) {
 
 //search product //
 
-exports.searchProduct = async function (req, res, next){
-   try{
-    const searchData = {name:req.query.name};
-    // console.log(searchData)
-    const findData = {productName:{$regex:`^${searchData.name}`,$options:"i"}}
-    // console.log(findData)
-    let resData = await ProductModel.find(findData);
+exports.searchProduct = async function (req, res, next) {
+    try {
+        const searchData = { name: req.query.name };
+        // console.log(searchData)
+        const findData = { productName: { $regex: `^${searchData.name}`, $options: "i" } }
+        // console.log(findData)
+        let resData = await ProductModel.find(findData);
 
-    if(resData.length ==0 ){
-        const findData = {productTitle:{$regex:`^${searchData.name}`,$options:"i"}}
-         resData = await ProductModel.find(findData);
-        
-    }
-    if(resData){
+        if (resData.length == 0) {
+            const findData = { productTitle: { $regex: `^${searchData.name}`, $options: "i" } }
+            resData = await ProductModel.find(findData);
+
+        }
+        if (resData) {
+            res.json({
+                status: "success",
+                message: "find success",
+                data: resData
+            })
+        } else {
+            res.json({
+                status: "failed",
+                message: "unable to find product",
+            })
+        }
+    } catch (err) {
         res.json({
-            status:"success",
-            message:"find success",
-            data:resData
-        })
-    }else{
-        res.json({
-            status:"failed",
-            message:"unable to find product",
+            status: "faild",
+            message: "something went wrond to find products..",
+            error: err
         })
     }
-   }catch(err){
-    res.json({
-        status:"faild",
-        message:"something went wrond to find products..",
-        error:err
-    })
-   }
 }
 
 

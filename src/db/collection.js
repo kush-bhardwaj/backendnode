@@ -1,4 +1,5 @@
 const COLLECTION ={
+    customer:'customer',
     admin:"adminsignup",
     Product:"products",
     Category:"category",
@@ -6,6 +7,7 @@ const COLLECTION ={
     Upload:"upload",
     SubSubCategory:"subsubcategory",
     slider:"sliders",
-    Notification:"notificationx"
+    Notification:"notificationx",
+    cart:"cart"
 }
-module.exports =COLLECTION
+module.exports =COLLECTION;

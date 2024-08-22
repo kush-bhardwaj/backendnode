@@ -46,18 +46,21 @@ exports.addProduct = async function (req, res, next) {
 //getAllProduct completed 👍
 exports.getAllProducts = async function (req, res, next) {
     try {
-        const pageNo = req.query.pageno
+        const pageNo = req.query.pageno 
+        // console.log(pageNo)
         const limit = 5;
         var totalCount = await ProductModel.find().count();
         const totalPage = Math.ceil(totalCount / limit)
-        if (pageNo <= totalPage) {
+       
+        if (pageNo <= totalPage ) {
             var offset = (pageNo - 1) * limit
             const getProduct = await ProductModel.find({}).skip(offset).limit(limit)
             if (getProduct) {
                 res.json({
                     status: "success",
                     message: "products find successfull",
-                    data: getProduct
+                    data: getProduct,
+                    pages:totalPage
                 })
             } else {
                 res.json({

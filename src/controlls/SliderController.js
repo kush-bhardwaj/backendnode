@@ -1,3 +1,4 @@
+const { json } = require('express');
 const SliderModel = require('../model/SliderModel')
 exports.AddSlider = async (req,res, next)=>{
    try{
@@ -49,6 +50,32 @@ exports.GetAllSliders = async(req, res, next)=>{
         message:'somethng went wrong to get Sliders',
         error:err
     })
+   }
+}
+
+exports.deleteSlider = async (req, res, next)=>{
+   try{
+    const query ={_id:req.params.id}
+    // console.log(query)
+    const deleteRes = await SliderModel.deleteOne(query)
+    if(deleteRes){
+        res.json({
+            status:'success',
+            message:"delete success"
+        })
+    }else{
+        res.json({
+            status:"fail",
+            message:"unable to deleteslider"
+        })
+    }
+   }catch(err){
+    res.json(
+      {
+      status:"failed",
+      message:"something went to delete slider"
+      }
+    )
    }
 }
 //get Slidetr image end

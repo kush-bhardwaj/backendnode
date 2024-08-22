@@ -155,10 +155,14 @@ exports.categoryAggregate = async function (req, res, next){
 //search category controller
 exports.searchCategory = async function(req,res,next){
     try{
-        const query = {name:req.params};
+        const query = {name:req.query.name};
 
     const findData ={catName:{$regex:`^${query.name}`,$options:"i"}}
-    const resData = await CategoryModel.findOne(findData);
+    const resData = await CategoryModel.find(findData);
+    if(resData.length === 0){
+        const finddata = {catTitle:{$regex:`^${query.name}`,$option:"i"}}
+        resData = await CategoryModel.find(finddata);
+    }
     if(resData){
         res.json({
             status:"success",

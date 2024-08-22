@@ -9,7 +9,7 @@ exports.AuthMiddleWare = async(req, res, next)=>{
             req.user_id = userInfo.userId
             next()
         }else{
-            res.json({
+            res.json({ 
                 status:"failed",
                 message:"unauthrized user"
             })

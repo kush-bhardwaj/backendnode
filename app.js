@@ -10,12 +10,27 @@ const SubCatRouter = require('./src/router/SubCategoryRouter');
 const SubsubcatRouter = require('./src/router/SubSUbCatRouter');
 const SliderRouter = require('./src/router/SliderRouter');
 const NotificationRouter = require('./src/router/NotificationRouter');
+const CustumerRouter = require('./src/router/CustomerRouter');
 
 app.use(cors())
 app.use(express.json({ limit: '100mb' }))
 app.use(express.urlencoded({ limit: '100mb', extended: true }));
 app.use('/image',express.static('./public/upload'))
 
+app.get("/karonasaiyacall",async function(req,res){
+       const re =  await fetch("https://reqres.in/api/users?page=2")
+       const data = await re.json();
+     
+    res.json({
+        message:"karona",
+        data:data
+    })
+})
+app.get('/api/download',async (req, res)=>{
+    const downloadFile = __dirname + '/public/upload/record.mp4'
+    res.download(downloadFile)
+})
+app.use('/api/customer',CustumerRouter)
 app.use('/api/auth',AdminAccRouter);
 app.use('/api/product',ProductRouter);
 app.use('/api/category',CategoryRouter);
@@ -24,3 +39,4 @@ app.use('/api/subsubdcat',SubsubcatRouter);
 app.use('/api/slider',SliderRouter);
 app.use('/api/notification',NotificationRouter);
 module.exports = app
+

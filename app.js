@@ -30,7 +30,7 @@ app.get('/api/download',async (req, res)=>{
     const downloadFile = __dirname + '/public/upload/record.mp4'
     res.download(downloadFile)
 })
-app.use('/api/customer',CustumerRouter)
+app.use('/api/auth/customer',CustumerRouter)
 app.use('/api/auth',AdminAccRouter);
 app.use('/api/product',ProductRouter);
 app.use('/api/category',CategoryRouter);

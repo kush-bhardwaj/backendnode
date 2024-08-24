@@ -1,4 +1,6 @@
 require('dotenv').config()
+require('../db/MySql')
+const MySql = require('../db/MySql')
 const jswonwebtoken = require('jsonwebtoken');
 const CustomerModel = require('../model/CustomerAccountModel');
 const { genPassword, commparePassowrd } = require('../utils/EncrypPassword');
@@ -10,6 +12,7 @@ exports.signup = async (req, res, next) => {
             custumerPassword: genPassword(req.body.password),
             custumerMobile: req.body.mobile
         }
+        console.log(signupData)
         const resData = await CustomerModel.create(signupData)
         if (resData) {
             res.json({
@@ -44,16 +47,14 @@ exports.signup = async (req, res, next) => {
 
 exports.login = async (req, res, next) => {
    try{
-    const logingInfo = req.body ;
+    const logingInfo = req.body;
     console.log(logingInfo.password)
     const find={
         $and:[{custumerEmail:logingInfo.email}]
     }
     
     const resData = await CustomerModel.findOne(find);
-    // console.log(resData)
     const secretKey = process.env.SECRET_KEY;
-    // console.log(secretKey)
     if(resData){
         if(commparePassowrd(logingInfo.password,resData.custumerPassword)){
                 payload={

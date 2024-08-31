@@ -45,10 +45,13 @@ exports.login = async function (req, res, next) {
             ]
         }
         const resData = await AdminAccModel.findOne(query)
+        // console.log("res", resData)
         const SecretKey = process.env.SECRET_KEY;
+       
 
         if (resData) {
             if (commparePassowrd(loginData.password ,resData.password )) {
+                console.log(loginData.password , resData.password)
                 const payload ={
                     name:resData.name,
                     email:resData.email,
@@ -58,10 +61,7 @@ exports.login = async function (req, res, next) {
                 res.json({
                     status: "success",
                     message: "login successfull",
-                    data:{name:resData.name,
-                        email:resData.email,
-                        token:userToken
-                    }
+                    token:userToken.decode()
                 })
             } else {
                 res.json({

@@ -1,6 +1,7 @@
 require('../db/db')
 const COLLECTION = require('../db/collection')
 const mongoose = require('mongoose')
+const { genPassword } = require('../utils/EncrypPassword')
 const AdmindAccSchema = mongoose.Schema({
     name:{type:String,required:[true ,'Name is must']},
     email:{type:String,required:[true ,'Email is must'],unique:true},
@@ -9,5 +10,9 @@ const AdmindAccSchema = mongoose.Schema({
     account_status:{type:Number,default:0}
    
 })
+
+// AdmindAccSchema.pre('save',()=>{
+//     this.password = genPassword(this.password)
+// })
 const AdminAccModel = new mongoose.model(COLLECTION.admin,AdmindAccSchema);
 module.exports = AdminAccModel;

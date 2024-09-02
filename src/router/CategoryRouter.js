@@ -3,7 +3,7 @@ const { addCategory, updateCategory, deleteCategory, getAllCategory, categoryAgg
 const { AuthMiddleWare } = require('../middleware/AuthMiddleware');
 
 const CategoryRouter = express.Router();
-CategoryRouter.use(AuthMiddleWare)
+// CategoryRouter.use(AuthMiddleWare)
 CategoryRouter.post('/addCategory',addCategory);
 CategoryRouter.get('/getAllCategory',getAllCategory);
 CategoryRouter.delete('/deleteCategory/:id',deleteCategory);

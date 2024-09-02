@@ -2,7 +2,7 @@
 const express = require('express');
 const app = express()
 const cors= require('cors');
-
+const path = require('path')
 const ProductRouter = require('./src/router/ProductRouter');
 const CategoryRouter = require('./src/router/CategoryRouter');
 const AdminAccRouter = require('./src/router/AdminAccountRouter');
@@ -30,6 +30,12 @@ app.get('/api/download',async (req, res)=>{
     const downloadFile = __dirname + '/public/upload/record.mp4'
     res.download(downloadFile)
 })
+
+app.use(express.static(path.join(__dirname, 'build')));
+app.get('/', function (req, res) {
+  res.sendFile(path.join(__dirname, 'build', 'index.html'));
+});
+
 app.use('/api/auth/customer',CustumerRouter)
 app.use('/api/auth',AdminAccRouter);
 app.use('/api/product',ProductRouter);

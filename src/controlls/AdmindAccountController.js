@@ -38,30 +38,30 @@ exports.signup = async function (req, res, next) {
 exports.login = async function (req, res, next) {
     try {
         const loginData = req.body;
-        // console.log(loginData)
-        const query = {
-            $and: [
-                { email:loginData.email }
-            ]
-        }
+        console.log(loginData)
+        const query = {email:loginData.email}
+        
+        
         const resData = await AdminAccModel.findOne(query)
+
         // console.log("res", resData)
         const SecretKey = process.env.SECRET_KEY;
-       
+        // console.log("res", SecretKey)
 
         if (resData) {
             if (commparePassowrd(loginData.password ,resData.password )) {
-                console.log(loginData.password , resData.password)
+               
                 const payload ={
                     name:resData.name,
                     email:resData.email,
                     userId:resData._id
                 }
                 const userToken = await jsonToken.sign(payload,SecretKey,{expiresIn:"15d"})
+                console.log("hiiiiii222")
                 res.json({
                     status: "success",
                     message: "login successfull",
-                    token:userToken.decode()
+                   token:userToken
                 })
             } else {
                 res.json({

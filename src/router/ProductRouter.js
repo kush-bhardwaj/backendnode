@@ -1,10 +1,11 @@
 const express = require('express')
-const { addProduct, getAllProducts, deleteProduct, updateProduct, uploadImage, productImageAggregate, searchProduct, singleProduct } = require('../controlls/ProductController')
+const { addProduct, getAllProducts, deleteProduct, updateProduct, uploadImage, productImageAggregate, searchProduct, singleProduct, getProductById } = require('../controlls/ProductController')
 const upload = require('../middleware/UploadMiddleWear')
 const { AuthMiddleWare } = require('../middleware/AuthMiddleware')
 const ProductRouter =express.Router()
 // ProductRouter.use(AuthMiddleWare)
 ProductRouter.get('/searchProduct', searchProduct)
+ProductRouter.get('/getproductbyid/:id',getProductById)
 ProductRouter.post('/addProduct',upload.single('productImg'),addProduct)//complete
 ProductRouter.get('/allProduct',getAllProducts) //complete
 ProductRouter.delete('/deleteProduct/:id',deleteProduct)//complete

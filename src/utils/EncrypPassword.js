@@ -3,6 +3,8 @@ exports.genPassword = (password) => {
     const salt = bcrypt.genSaltSync(15);
     return bcrypt.hashSync(password, salt)
 }
-exports.commparePassowrd = (hash, oldpassowrd) => {
-    return bcrypt.compareSync(hash, oldpassowrd)
+exports.commparePassowrd = (oldpassowrd, hash) => {
+    // console.log("oldpassword",oldpassowrd)
+    // console.log('hash',hash)
+    return bcrypt.compareSync(oldpassowrd,hash)
 }

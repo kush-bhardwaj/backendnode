@@ -46,13 +46,13 @@ exports.addProduct = async function (req, res, next) {
 //getAllProduct completed 👍
 exports.getAllProducts = async function (req, res, next) {
     try {
-        const pageNo = req.query.pageno 
+        const pageNo = req.query.pageno
         // console.log(pageNo)
         const limit = 5;
         var totalCount = await ProductModel.find().count();
         const totalPage = Math.ceil(totalCount / limit)
-       
-        if (pageNo <= totalPage ) {
+
+        if (pageNo <= totalPage) {
             var offset = (pageNo - 1) * limit
             const getProduct = await ProductModel.find({}).skip(offset).limit(limit)
             if (getProduct) {
@@ -60,7 +60,7 @@ exports.getAllProducts = async function (req, res, next) {
                     status: "success",
                     message: "products find successfull",
                     data: getProduct,
-                    pages:totalPage
+                    pages: totalPage
                 })
             } else {
                 res.json({
@@ -79,6 +79,22 @@ exports.getAllProducts = async function (req, res, next) {
     }
 }
 
+//getProdut By Id
+
+exports.getProductById = async (req, res, next) => {
+    const query = { _id: req.params }
+    const find = { $and: [{ productCat_Id: new ObjectId(query._id) }] }
+    const findData = await ProductModel.find(find)
+    if(findData){
+        res.json({
+            status:"success",
+            message:"get all prducts by id",
+            data:findData
+        })
+    }
+}
+
+//getProduct by id end
 //delete Product completed 👍
 exports.deleteProduct = async function (req, res, next) {
     try {

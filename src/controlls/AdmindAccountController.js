@@ -57,7 +57,7 @@ exports.login = async function (req, res, next) {
                     userId:resData._id
                 }
                 const userToken = await jsonToken.sign(payload,SecretKey,{expiresIn:"15d"})
-                console.log("hiiiiii222")
+                // console.log("hiiiiii222")
                 res.json({
                     status: "success",
                     message: "login successfull",

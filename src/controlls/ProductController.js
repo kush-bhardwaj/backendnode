@@ -170,7 +170,7 @@ exports.updateProduct = async function (req, res, next) {
 
 exports.singleProduct = async function (req, res, next) {
     try {
-        const query = { _id: req.params.id };
+        const query = {productTitle : req.params.name };
         console.log("single product id", query)
         const singleRes = await ProductModel.findOne(query)
         if (singleRes) {

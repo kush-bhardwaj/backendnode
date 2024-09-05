@@ -5,13 +5,13 @@ const MailTransporter = nodemailer.createTransport({
     port:587,
     secure:false,
     auth:{
-        user:"amanbharti822002@gmail.com",
-        pass:"zniaqanklnmddony"
+        user:"kushbhardwaj8800@gmail.com",
+        pass:"pysgnwbtxsmsyema"
     }
 })
 
 async function SentMail(to,subject,text,html){
-    const info   = await MailTransporter({
+    const info   = await MailTransporter.sendMail({
         from:"kushbhardwaj8800@gmail.com",
         to:to,
         subject:subject,

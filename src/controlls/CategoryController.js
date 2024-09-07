@@ -125,10 +125,10 @@ exports.categoryAggregate = async function (req, res, next){
     const resData = await CategoryModel.aggregate([
         {$match:{_id:new ObjectId(id)}},
         {$lookup:{
-            from:'subcategories',
-            localField:"_id",
-            foreignField:"catId",
-            as:"subCatData"
+                from:'subcategories',
+                localField:"_id",
+                foreignField:"catId",
+                as:"subCatData"
         }} 
     ])
     if(resData){

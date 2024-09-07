@@ -3,5 +3,5 @@ const { signup, login, verifyCustomer } = require('../controlls/CustomerAccContr
 const CustumerRouter = express.Router();
 CustumerRouter.post('/signup',signup);
 CustumerRouter.post('/login',login);
-CustumerRouter.put('/verify/:id',verifyCustomer)
+CustumerRouter.get('/verify/:id',verifyCustomer)
 module.exports = CustumerRouter;

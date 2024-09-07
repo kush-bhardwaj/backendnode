@@ -39,8 +39,9 @@ app.get('/', function (req, res) {
   res.sendFile(path.join(__dirname, 'build', 'index.html'));
 });
 
-app.use('/api/auth/customer',CustumerRouter)
+
 app.use('/api/auth',AdminAccRouter);
+app.use('/api/auth/customer',CustumerRouter)
 app.use('/api/product',ProductRouter);
 app.use('/api/category',CategoryRouter);
 app.use('/api/subcategory',SubCatRouter);

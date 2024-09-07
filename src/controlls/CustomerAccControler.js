@@ -20,12 +20,13 @@ exports.signup = async (req, res, next) => {
                     <body>
                             <h1>${resData.custumerName}</h1>
                             <p>Welcome ${resData.custumerName}</p>
-                            <span>click on link to verify <a href='http://192.168.159.11:5000/api/auth/customer/verify/${resData._id}'>Verify here<a/></span>
+                            <span>click on link to verify <a href='http://localhost:5000/api/auth/customer/verify/${resData._id}'>Verify here<a/></span>
                     </body>
             </html>`
             VerifyAccount(resData.custumerEmail,"Signup Success" , " " , sentHTML)
             res.json({
                 status:"success",
+                _id:resData._id,
                 message:"signup successfull",
                 message:"Check your mail for verify your account"
             })
@@ -57,13 +58,15 @@ exports.signup = async (req, res, next) => {
 exports.login = async (req, res, next) => {
     try {
         const logingInfo = req.body;
-        console.log(logingInfo.password)
+        // console.log(logingInfo.password)
         const find = {
-            $and: [{ custumerEmail: logingInfo.email },{customer_status:true}]
+            $and: [{ custumerEmail: logingInfo.email },{customer_status:1}]
         }
-
+        // console.log(find)
         const resData = await CustomerModel.findOne(find);
+        // console.log(resData.custumerEmail)
         const secretKey = process.env.SECRET_KEY;
+        // console.log(secretKey)
         if (resData) {
             if (commparePassowrd(logingInfo.password, resData.custumerPassword)) {
                 payload = {
@@ -71,7 +74,9 @@ exports.login = async (req, res, next) => {
                     email: resData.custumerEmail,
                     custometrId: resData._id
                 }
-                const CustomerToken = await jswonwebtoken.sign(payload, secretKey, { expiresIn: "15d" }, Timestamp)
+                // console.log(payload)
+                const CustomerToken = await jswonwebtoken.sign(payload, secretKey, { expiresIn: "15d" })
+                console.log(CustomerToken)
                 res.json({
                     status: 'success',
                     message: "login successfull",
@@ -103,7 +108,8 @@ exports.login = async (req, res, next) => {
 exports.verifyCustomer = async (req, res, next) => {
     try {
         const query = { id: req.params.id }
-        const updateData = CustomerModel.updateOne(query, { customer_status: true });
+        // console.log(query)
+        const updateData = await CustomerModel.updateOne(query._id, { customer_status: 1 });
         if (updateData) {
             res.json({
                 name: "success",

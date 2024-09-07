@@ -10,7 +10,7 @@ const CustomerSchema = mongoose.Schema({
     custumerEmail :{type:String,required:[true,"customer email require"],unique:true},
     custumerPassword :{type:String,required:[true,"customer password require"]},
     custumerMobile :{type:String,required:[true,"customer phoner number require"],unique:true},
-    customer_status:{type:Boolean,default:false}
+    customer_status:{type:Number,default:0}
 });
 const CustomerModel = new mongoose.model(COLLECTION.customer,CustomerSchema);
 module.exports = CustomerModel;

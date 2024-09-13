@@ -20,13 +20,12 @@ exports.signup = async (req, res, next) => {
                     <body>
                             <h1>${resData.custumerName}</h1>
                             <p>Welcome ${resData.custumerName}</p>
-                            <span>click on link to verify <a href='http://localhost:5000/api/auth/customer/verify/${resData._id}'>Verify here<a/></span>
+                            <span>click on link to verify <a href='http://192.168.0.8:5000/api/auth/customer/verify/${resData._id}'>Verify here<a/></span>
                     </body>
             </html>`
             VerifyAccount(resData.custumerEmail,"Signup Success" , " " , sentHTML)
             res.json({
                 status:"success",
-                _id:resData._id,
                 message:"signup successfull",
                 message:"Check your mail for verify your account"
             })
@@ -59,6 +58,7 @@ exports.login = async (req, res, next) => {
     try {
         const logingInfo = req.body;
         // console.log(logingInfo.password)
+        // console.log(logingInfo.email)
         const find = {
             $and: [{ custumerEmail: logingInfo.email },{customer_status:1}]
         }
@@ -69,14 +69,16 @@ exports.login = async (req, res, next) => {
         // console.log(secretKey)
         if (resData) {
             if (commparePassowrd(logingInfo.password, resData.custumerPassword)) {
+                // console.log("hello")
                 payload = {
                     name: resData.custumerName,
                     email: resData.custumerEmail,
-                    custometrId: resData._id
+                    customerId: resData._id
                 }
                 // console.log(payload)
                 const CustomerToken = await jswonwebtoken.sign(payload, secretKey, { expiresIn: "15d" })
-                console.log(CustomerToken)
+                
+                // console.log("customerToken",CustomerToken)
                 res.json({
                     status: 'success',
                     message: "login successfull",
@@ -99,7 +101,7 @@ exports.login = async (req, res, next) => {
     } catch (err) {
         res.json({
             status: "failed",
-            message: "Unable to Login",
+            message: "Unable to Loginnn",
             error: err
         })
     }

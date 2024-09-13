@@ -5,6 +5,6 @@ const app = require('./app');
 const server = http.createServer(app);
 const PORT = 5000;
 const HOST = "localhost";
-server.listen(PORT,HOST, function(){
+server.listen(PORT, function(){
     console.log(`server start ${HOST}:${PORT}`)
 })

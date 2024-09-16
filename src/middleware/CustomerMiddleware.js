@@ -7,7 +7,7 @@ exports.customerMiddleWare = async(req, res, next)=>{
         // console.log("authorization",customerToken)
 
         const customerInfo = jsonToken.verify(customerToken,process.env.SECRET_KEY)
-        console.log("customerInfo",customerInfo)
+        // console.log("customerInfo",customerInfo)
         if(customerInfo){
             req.user_id = customerInfo.customerId
             next()

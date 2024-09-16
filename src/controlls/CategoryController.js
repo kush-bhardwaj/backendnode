@@ -157,12 +157,12 @@ exports.searchCategory = async function(req,res,next){
     try{
         const query = {name:req.query.name};
 
-    const findData ={catName:{$regex:`^${query.name}`,$options:"i"}}
+    const findData ={$or:[
+        {catName:{$regex:`^${query.name}`,$options:"i"}},
+        {catTitle:{$regex:`^${query.name}`,$option:"i"}}
+    ]}
     const resData = await CategoryModel.find(findData);
-    if(resData.length === 0){
-        const finddata = {catTitle:{$regex:`^${query.name}`,$option:"i"}}
-        resData = await CategoryModel.find(finddata);
-    }
+
     if(resData){
         res.json({
             status:"success",
